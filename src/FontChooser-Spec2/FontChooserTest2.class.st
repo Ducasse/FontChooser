@@ -10,7 +10,7 @@ FontChooserTest2 >> testFontList [
 	| chooser |
 	chooser := FontChooser new.
 	self deny: chooser fontList isEmpty.
-	self assert: chooser fontList first familyName equals: #'Bitmap DejaVu Sans'
+	self assert: chooser fontList first familyName equals: LogicalFontManager current allFamilies first familyName
 	
 ]
 
