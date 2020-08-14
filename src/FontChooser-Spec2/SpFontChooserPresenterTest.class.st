@@ -24,10 +24,22 @@ SpFontChooserPresenterTest >> testFamilyListCorrectAtInitialization [
 ]
 
 { #category : #tests }
+SpFontChooserPresenterTest >> testFirstStyleIsSelected [
+	
+	self assert: (presenter fontStyleList selectedItems collect: [:each | each styleName ]) equals: #('Regular')
+]
+
+{ #category : #tests }
 SpFontChooserPresenterTest >> testPresenterOpenAndClose [
 	
 	self shouldnt: [ 
 			| window | 
 			window := presenter openWithSpec.
 			window close ] raise: Error
+]
+
+{ #category : #tests }
+SpFontChooserPresenterTest >> testStyleIsDisplayed [
+	
+	self assert: presenter fontStyleList items size equals: #('Regular' 'Italic' 'Bold' 'Bold Italic') size
 ]
