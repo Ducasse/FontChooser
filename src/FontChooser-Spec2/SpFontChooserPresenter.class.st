@@ -38,6 +38,7 @@ SpFontChooserPresenter >> fontFamilyList [
 SpFontChooserPresenter >> initializePresenters [ 
 	
 	fontFamilyList := self newList.
+	fontFamilyList display: [ :each | each familyName ]
 	
 
 ]
