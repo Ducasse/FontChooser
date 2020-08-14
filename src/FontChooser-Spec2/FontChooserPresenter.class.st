@@ -7,6 +7,7 @@ Class {
 	#name : #FontChooserPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
+		'fontChooser',
 		'fontFamilyList'
 	],
 	#category : #'FontChooser-Spec2'
@@ -23,7 +24,7 @@ FontChooserPresenter class >> defaultSpec [
 
 { #category : #initialization }
 FontChooserPresenter >> initializePresenters [ 
-
+	fontChooser := FontChooser new. 
 	fontFamilyList := self newList.
-	fontFamilyList items: #( 1 2  3)
+	fontFamilyList items: fontChooser fontList
 ]
