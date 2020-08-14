@@ -24,5 +24,6 @@ FontChooserPresenter class >> defaultSpec [
 { #category : #initialization }
 FontChooserPresenter >> initializePresenters [ 
 
-	fontFamilyList := self newList
+	fontFamilyList := self newList.
+	fontFamilyList items: #( 1 2  3)
 ]
