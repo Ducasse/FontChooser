@@ -1,6 +1,12 @@
 "
 ```
-FontChooserPresenter new openWithSpec
+(SpFontChooserPresenter on: FontChooser new) openWithSpec
+```
+
+For example to work on a subset of fonts, provide a specific font chooser qs follows:
+
+```
+(SpFontChooserPresenter on: FontChooser newWithDefaultFamilies) openWithSpec
 ```
 "
 Class {

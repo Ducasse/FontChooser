@@ -7,17 +7,26 @@ Class {
 	#category : #'FontChooser-Spec2'
 }
 
-{ #category : #tests }
+{ #category : #running }
 SpFontChooserPresenterTest >> setUp [
 
-	presenter := SpFontChooserPresenter on: (FontChooser new fontList: LogicalFontManager current defaultFamilies).
+	presenter := SpFontChooserPresenter on: FontChooser newWithDefaultFamilies.
 	
 ]
 
 { #category : #tests }
-SpFontChooserPresenterTest >> testFamilyListCorrect [
+SpFontChooserPresenterTest >> testFamilyListCorrectAtInitialization [
 
 	self deny: presenter fontFamilyList items isEmpty.
 	self assert: presenter fontFamilyList items size equals: 3.
 	self assert: presenter fontFamilyList selectedItems equals: #().
+]
+
+{ #category : #tests }
+SpFontChooserPresenterTest >> testPresenterOpenAndClose [
+	
+	self shouldnt: [ 
+			| window | 
+			window := presenter openWithSpec.
+			window close ] raise: Error
 ]
