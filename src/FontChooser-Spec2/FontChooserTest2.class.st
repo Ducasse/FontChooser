@@ -1,25 +1,33 @@
 Class {
 	#name : #FontChooserTest2,
 	#superclass : #TestCase,
+	#instVars : [
+		'chooser'
+	],
 	#category : #'FontChooser-Spec2'
 }
 
 { #category : #tests }
+FontChooserTest2 >> setUp [
+	
+	chooser := FontChooser new.
+	chooser fontList: LogicalFontManager current defaultFamilies.
+
+]
+
+{ #category : #tests }
 FontChooserTest2 >> testFontList [
 	
-	| chooser |
-	chooser := FontChooser new.
 	self deny: chooser fontList isEmpty.
-	self assert: chooser fontList first familyName equals: LogicalFontManager current allFamilies first familyName
+	self assert: chooser fontList first familyName equals: LogicalFontManager current defaultFamilies first familyName
 	
 ]
 
 { #category : #tests }
 FontChooserTest2 >> testFontListStrings [
-	
-	| chooser |
-	chooser := FontChooser new.
+
 	self deny: chooser fontListStrings isEmpty.
-	self assert: chooser fontListStrings equals: 
-	(LogicalFontManager current allFamilies collect: [ :each | each familyName ]) 
+	self 
+		assert: chooser fontListStrings 
+		equals: (LogicalFontManager current defaultFamilies collect: [ :each | each familyName ]) 
 ]

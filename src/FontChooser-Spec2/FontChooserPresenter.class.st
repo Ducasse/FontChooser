@@ -26,5 +26,6 @@ FontChooserPresenter class >> defaultSpec [
 FontChooserPresenter >> initializePresenters [ 
 	fontChooser := FontChooser new. 
 	fontFamilyList := self newList.
-	fontFamilyList items: fontChooser fontList
+	fontFamilyList items: fontChooser fontList.
+	fontFamilyList selectedIndex: 1
 ]
