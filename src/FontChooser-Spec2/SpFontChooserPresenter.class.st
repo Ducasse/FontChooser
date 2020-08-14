@@ -46,5 +46,5 @@ SpFontChooserPresenter >> initializePresenters [
 SpFontChooserPresenter >> modelChanged [  
 
 	fontFamilyList items: self model fontList.
-
+	fontFamilyList selectIndex: 1
 ]
