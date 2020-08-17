@@ -13,7 +13,8 @@ Class {
 	#name : #SpFontChooserPresenter,
 	#superclass : #SpPresenterWithModel,
 	#instVars : [
-		'fontFamilyList'
+		'fontFamilyList',
+		'fontStyleList'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -22,9 +23,27 @@ Class {
 SpFontChooserPresenter class >> defaultSpec [ 
 
 	^ SpBoxLayout newVertical
-		add: #fontFamilyList;
+		add: (SpBoxLayout newHorizontal 
+					add: #fontFamilyList;
+					add: #fontStyleList;
+					yourself);
+					
 		yourself
 			
+]
+
+{ #category : #initialization }
+SpFontChooserPresenter >> connectPresenters [ 
+	
+	fontFamilyList 
+		whenSelectionChangedDo: [ :selection | 
+			selection selectedItem
+				ifNotNil: [ :family | 
+						fontStyleList items: family members asSortedCollection.
+						fontStyleList selectIndex: 1.
+						"in the future we will have to use the previously selected element."
+						] 
+				ifNil: [ "Avoid the user to have no page selected at all."  ] ]
 ]
 
 { #category : #accessing }
@@ -34,11 +53,24 @@ SpFontChooserPresenter >> fontFamilyList [
 
 ]
 
+{ #category : #accessing }
+SpFontChooserPresenter >> fontStyleList [
+	^ fontStyleList
+]
+
 { #category : #initialization }
 SpFontChooserPresenter >> initializePresenters [ 
 	
 	fontFamilyList := self newList.
+	fontFamilyList display: [ :each | each familyName ].
 	
+	fontStyleList := self newList.
+	fontStyleList display: [ :familyMember |  
+			| styleName |
+			styleName := familyMember styleName.
+			familyMember simulated
+				ifTrue: ['(', styleName, ')']
+				ifFalse: [styleName] ]
 
 ]
 
@@ -46,5 +78,6 @@ SpFontChooserPresenter >> initializePresenters [
 SpFontChooserPresenter >> modelChanged [  
 
 	fontFamilyList items: self model fontList.
-
+	fontFamilyList selectIndex: 1.
+	
 ]
