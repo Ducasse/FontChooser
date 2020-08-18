@@ -28,6 +28,6 @@ FontChooserTest2 >> testFontListStrings [
 
 	self deny: chooser fontListStrings isEmpty.
 	self 
-		assert: chooser fontListStrings 
+		assert: chooser fontListStrings
 		equals: (LogicalFontManager current defaultFamilies collect: [ :each | each familyName ]) 
 ]

@@ -7,6 +7,12 @@ FontChooser >> fontList: aFontList [
 ]
 
 { #category : #'*FontChooser-Spec2' }
+FontChooser >> fontListStrings: aFontList [
+	
+	fontListStrings := aFontList
+]
+
+{ #category : #'*FontChooser-Spec2' }
 FontChooser class >> newWithDefaultFamilies [
 
    ^ self new fontList: LogicalFontManager current defaultFamilies; yourself

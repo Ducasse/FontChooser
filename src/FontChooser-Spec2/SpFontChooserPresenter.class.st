@@ -14,7 +14,8 @@ Class {
 	#superclass : #SpPresenterWithModel,
 	#instVars : [
 		'fontFamilyList',
-		'fontStyleList'
+		'fontStyleList',
+		'fontSizeList'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -54,6 +55,13 @@ SpFontChooserPresenter >> fontFamilyList [
 ]
 
 { #category : #accessing }
+SpFontChooserPresenter >> fontSizeList [ 
+	
+	^ fontSizeList 
+
+]
+
+{ #category : #accessing }
 SpFontChooserPresenter >> fontStyleList [
 	^ fontStyleList
 ]
@@ -70,7 +78,15 @@ SpFontChooserPresenter >> initializePresenters [
 			styleName := familyMember styleName.
 			familyMember simulated
 				ifTrue: ['(', styleName, ')']
-				ifFalse: [styleName] ]
+				ifFalse: [styleName] ].
+			
+	fontSizeList := self newList.
+	fontSizeList display: [ :familyMember2 |  
+			| size |
+			size := familyMember2 size.
+			familyMember2 simulated
+				ifTrue: ['(', size, ')']
+				ifFalse: [size] ]
 
 ]
 
