@@ -48,6 +48,17 @@ SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept [
 	self assert: presenter fontStyleList selection selectedIndex equals: 3
 ]
 
+{ #category : #'tests - keep selection' }
+SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept2 [
+
+	| string |
+	presenter fontStyleList clickItem: 3.
+	string := (presenter fontStyleList displayValueAt: 3). "for example 'Bold'"
+	presenter fontFamilyList clickItem: 2.
+	
+	self assert: presenter fontStyleList selection selectedItem styleName equals: string
+]
+
 { #category : #tests }
 SpFontChooserPresenterTest >> testStyleIsDisplayed [
 	

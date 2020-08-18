@@ -16,7 +16,8 @@ Class {
 		'fontFamilyList',
 		'fontStyleList',
 		'fontSizeList',
-		'currentFontStyleIndex'
+		'currentFontStyleIndex',
+		'currentFontStyleValue'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -41,11 +42,18 @@ SpFontChooserPresenter >> connectPresenters [
 		whenSelectionChangedDo: [ :selection | 
 			selection selectedItem
 				ifNotNil: [ :family | 
-						currentFontStyleIndex := (fontStyleList selection selectedIndex) max: 1.
+						self storeCurrentFontStyleValue.
 						fontStyleList items: family members asSortedCollection.
-						fontStyleList selectIndex: currentFontStyleIndex.
-						] 
-				ifNil: [   ] ]
+						self refreshFontStyleList  ]
+						]
+]
+
+{ #category : #'font style list' }
+SpFontChooserPresenter >> firstFontStyleValue [ 
+	"when there is no element that correspond to the previous selection, return the default value"
+	
+	^ 'Regular'	
+				
 ]
 
 { #category : #accessing }
@@ -68,14 +76,6 @@ SpFontChooserPresenter >> fontStyleList [
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> initialize [
-
-	super initialize.   
-	currentFontStyleIndex := 1.
-	
-]
-
-{ #category : #initialization }
 SpFontChooserPresenter >> initializePresenters [ 
 	
 	fontFamilyList := self newList.
@@ -84,11 +84,11 @@ SpFontChooserPresenter >> initializePresenters [
 	fontStyleList := self newList.
 	fontStyleList display: [ :familyMember |  
 			| styleName |
+
 			styleName := familyMember styleName.
 			familyMember simulated
 				ifTrue: ['(', styleName, ')']
 				ifFalse: [styleName] ].
-	"fontStyleList whenSelectionChangedDo: [ :each | self halt. currentFontStyleIndex := each selectedIndex  ]."
 			
 	fontSizeList := self newList.
 	fontSizeList display: [ :familyMember2 |  
@@ -114,6 +114,24 @@ SpFontChooserPresenter >> modelChanged [
 	fontFamilyList selectIndex: 1.
 	
 
+]
+
+{ #category : #'font style list' }
+SpFontChooserPresenter >> refreshFontStyleList [
+								
+	| fontStyle |
+	fontStyle := fontStyleList items detect: [ :aFontStyle | aFontStyle styleName = currentFontStyleValue ] ifNone: [ nil ].
+	fontStyle ifNil: [ "could not work when there are not fontStyles"
+							fontStyleList selectIndex: 1 ]
+				ifNotNil: [ fontStyleList selectItem: fontStyle  ]
+]
+
+{ #category : #'font style list' }
+SpFontChooserPresenter >> storeCurrentFontStyleValue [ 
+
+	currentFontStyleValue := fontStyleList selection isEmpty
+		ifTrue: [  self firstFontStyleValue ]
+		ifFalse: [ self halt.  fontStyleList displayValueFor: (fontStyleList selection selectedItem)]. 
 ]
 
 { #category : #initialization }
