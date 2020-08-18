@@ -1,6 +1,6 @@
 "
 ```
-(SpFontChooserPresenter on: NewFontChooser new) openWithSpec
+(SpFontChooserPresenter on: FontChooser new) openWithSpec
 ```
 
 For example to work on a subset of fonts, provide a specific font chooser qs follows:
@@ -120,7 +120,15 @@ SpFontChooserPresenter >> modelChanged [
 SpFontChooserPresenter >> refreshFontStyleList [
 								
 	| fontStyle |
-	fontStyle := fontStyleList items detect: [ :aFontStyle | aFontStyle styleName = currentFontStyleValue ] ifNone: [ nil ].
+	"the display logic displays (Oblique) and the font does not store (Oblique) but Oblique.
+	So we have to remove the parentheses if we want to find and select the correct Oblique."
+	
+	fontStyle := fontStyleList items detect: [ :aFontStyle | 
+			| previousWithoutParentheses |
+			previousWithoutParentheses := currentFontStyleValue copy.
+			previousWithoutParentheses first = $(
+				ifTrue: [ previousWithoutParentheses := previousWithoutParentheses copyFrom: 2 to: previousWithoutParentheses size - 1 ].
+			aFontStyle styleName = previousWithoutParentheses ] ifNone: [ nil ].
 	fontStyle ifNil: [ "could not work when there are not fontStyles"
 							fontStyleList selectIndex: 1 ]
 				ifNotNil: [ fontStyleList selectItem: fontStyle  ]
@@ -130,8 +138,8 @@ SpFontChooserPresenter >> refreshFontStyleList [
 SpFontChooserPresenter >> storeCurrentFontStyleValue [ 
 
 	currentFontStyleValue := fontStyleList selection isEmpty
-		ifTrue: [  self firstFontStyleValue ]
-		ifFalse: [ self halt.  fontStyleList displayValueFor: (fontStyleList selection selectedItem)]. 
+		ifTrue: [ self firstFontStyleValue ]
+		ifFalse: [  fontStyleList displayValueFor: (fontStyleList selection selectedItem)]. 
 ]
 
 { #category : #initialization }
