@@ -10,7 +10,7 @@ Class {
 { #category : #running }
 SpFontChooserPresenterTest >> setUp [
 
-	presenter := SpFontChooserPresenter on: FontChooser newWithDefaultFamilies.
+	presenter := SpFontChooserPresenter on: NewFontChooser newWithDefaultFamilies.
 	
 ]
 
