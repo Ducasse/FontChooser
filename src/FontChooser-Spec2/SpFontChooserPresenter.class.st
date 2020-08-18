@@ -1,12 +1,12 @@
 "
 ```
-(SpFontChooserPresenter on: FontChooser new) openWithSpec
+(SpFontChooserPresenter on: NewFontChooser new) openWithSpec
 ```
 
 For example to work on a subset of fonts, provide a specific font chooser qs follows:
 
 ```
-(SpFontChooserPresenter on: FontChooser newWithDefaultFamilies) openWithSpec
+(SpFontChooserPresenter on: NewFontChooser newWithDefaultFamilies) openWithSpec
 ```
 "
 Class {
@@ -91,9 +91,21 @@ SpFontChooserPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
+SpFontChooserPresenter >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 900 @ 530.
+	aWindowPresenter title: self title
+]
+
+{ #category : #initialization }
 SpFontChooserPresenter >> modelChanged [  
 
 	fontFamilyList items: self model fontList.
 	fontFamilyList selectIndex: 1.
 	
+]
+
+{ #category : #initialization }
+SpFontChooserPresenter >> title [ 
+
+	^ 'Font Chooser'
 ]
