@@ -38,6 +38,16 @@ SpFontChooserPresenterTest >> testPresenterOpenAndClose [
 			window close ] raise: Error
 ]
 
+{ #category : #'tests - keep selection' }
+SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept [
+
+
+	presenter fontStyleList clickItem: 3.
+	presenter fontFamilyList clickItem: 2.
+	 
+	self assert: presenter fontStyleList selection selectedIndex equals: 3
+]
+
 { #category : #tests }
 SpFontChooserPresenterTest >> testStyleIsDisplayed [
 	

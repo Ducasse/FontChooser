@@ -15,7 +15,8 @@ Class {
 	#instVars : [
 		'fontFamilyList',
 		'fontStyleList',
-		'fontSizeList'
+		'fontSizeList',
+		'currentFontStyleIndex'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -40,11 +41,11 @@ SpFontChooserPresenter >> connectPresenters [
 		whenSelectionChangedDo: [ :selection | 
 			selection selectedItem
 				ifNotNil: [ :family | 
+						currentFontStyleIndex := (fontStyleList selection selectedIndex) max: 1.
 						fontStyleList items: family members asSortedCollection.
-						fontStyleList selectIndex: 1.
-						"in the future we will have to use the previously selected element."
+						fontStyleList selectIndex: currentFontStyleIndex.
 						] 
-				ifNil: [ "Avoid the user to have no page selected at all."  ] ]
+				ifNil: [   ] ]
 ]
 
 { #category : #accessing }
@@ -67,6 +68,14 @@ SpFontChooserPresenter >> fontStyleList [
 ]
 
 { #category : #initialization }
+SpFontChooserPresenter >> initialize [
+
+	super initialize.   
+	currentFontStyleIndex := 1.
+	
+]
+
+{ #category : #initialization }
 SpFontChooserPresenter >> initializePresenters [ 
 	
 	fontFamilyList := self newList.
@@ -79,6 +88,7 @@ SpFontChooserPresenter >> initializePresenters [
 			familyMember simulated
 				ifTrue: ['(', styleName, ')']
 				ifFalse: [styleName] ].
+	"fontStyleList whenSelectionChangedDo: [ :each | self halt. currentFontStyleIndex := each selectedIndex  ]."
 			
 	fontSizeList := self newList.
 	fontSizeList display: [ :familyMember2 |  
@@ -92,16 +102,18 @@ SpFontChooserPresenter >> initializePresenters [
 
 { #category : #initialization }
 SpFontChooserPresenter >> initializeWindow: aWindowPresenter [
+
 	aWindowPresenter initialExtent: 900 @ 530.
 	aWindowPresenter title: self title
 ]
 
 { #category : #initialization }
 SpFontChooserPresenter >> modelChanged [  
-
+	
 	fontFamilyList items: self model fontList.
 	fontFamilyList selectIndex: 1.
 	
+
 ]
 
 { #category : #initialization }

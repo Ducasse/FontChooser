@@ -44,24 +44,3 @@ FontChooserTest >> testFontListStrings [
 		assert: chooser fontListStrings
 		equals: (LogicalFontManager current defaultFamilies collect: [ :each | each familyName ]) 
 ]
-
-{ #category : #tests }
-FontChooserTest >> testPointSizeList [
-
-	chooser selectedFontIndex: 1.
-	chooser selectedFontStyleIndex
-	self 
-		assert: chooser pointSizeList
-		equals: 3
-]
-
-{ #category : #tests }
-FontChooserTest >> testPointSizeListIsSet [
-	self skip
-	"chooser setPointSizeListFrom: chooser fontList first.
-	self halt.
-	self 
-		assert: chooser pointSizeList
-		equals: 'no idea how the point size list is computer from the familie see later'"
-	
-]
