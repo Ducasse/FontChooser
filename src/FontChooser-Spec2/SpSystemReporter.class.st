@@ -1,83 +1,8 @@
-"
-SpSystemReporter new openWithSpec
-"
 Class {
 	#name : #SpSystemReporter,
-	#superclass : #SpPresenter,
-	#instVars : [
-		'topicList',
-		'reportText'
-	],
-	#classInstVars : [
-		'reportText'
-	],
+	#superclass : #SpReporter,
 	#category : #'FontChooser-Spec2'
 }
-
-{ #category : #specs }
-SpSystemReporter class >> defaultSpec [
-	"self new openWithSpec"
-	^ (SpBoxLayout newHorizontal 
-			add: #topicList withConstraints: [ :constraints | constraints width: 120 ];
-			add: #reportText;
-			yourself)
-]
-
-{ #category : #initialization }
-SpSystemReporter >> connectPresenters [  
-
-	topicList whenSelectionChangedDo: [ :selection | 
-			selection selectedItems
-				ifNotNil: [ :items |
-								reportText text: (self createTextForReport: items)]]
-]
-
-{ #category : #'building report' }
-SpSystemReporter >> createTextForReport [
-
-	^ (Text streamContents: [:stream | 
-						topicList items do: [:each |
-								self perform: each value with: stream.
-								stream cr]])
-]
-
-{ #category : #'building report' }
-SpSystemReporter >> createTextForReport: items [
-
-	^ (Text streamContents: [:stream | 
-						items do: [:each |
-								self perform: each value with: stream.
-								stream cr]])
-]
-
-{ #category : #utils }
-SpSystemReporter >> enumerate: aBlock on: aStream [
-	self enumerate: aBlock startAt: 0 on: aStream
-]
-
-{ #category : #utils }
-SpSystemReporter >> enumerate: aBlock startAt: first on: aStream [
-	"Utility method to enumerate Options or Parameters from first to 1000"
-
-	| idx value |
-	idx := first.
-	[ 
-	value := aBlock value: idx.
-	value isNil or: [ idx > 1000 ] ]
-		whileFalse: [ 
-			aStream
-				nextPut: $#;
-				nextPutAll: idx printString;
-				tab;
-				nextPutAll: value;
-				cr.
-			idx := idx + 1 ].
-	idx = first
-		ifTrue: [ 
-			aStream
-				nextPutAll: 'none';
-				cr ]
-]
 
 { #category : #initialization }
 SpSystemReporter >> fillTopics [
@@ -105,33 +30,6 @@ SpSystemReporter >> fillTopics [
 		ifTrue: [ topics add: #'VM Configuration' -> #reportWin32VMConfig: ].	
 	topicList items: topics
 		 
-]
-
-{ #category : #utils }
-SpSystemReporter >> header: aString on: aStream [
-	aStream
-		withAttribute: TextEmphasis bold
-		do: [ aStream
-				nextPutAll: aString;
-				cr.
-			aString size timesRepeat: [ aStream nextPut: $- ].
-			aStream cr ]
-]
-
-{ #category : #initialization }
-SpSystemReporter >> initializePresenters [ 
-
-	topicList := self newList.
-	topicList beMultipleSelection.
-	topicList display: [ :each | each key ].
-	self fillTopics.
-	reportText := self newText.
-]
-
-{ #category : #initialization }
-SpSystemReporter >> initializeWindow: aPres [
-
-	aPres title: 'System Reporter'
 ]
 
 { #category : #utils }
@@ -409,4 +307,9 @@ SpSystemReporter >> reportWorkingCopies: aStream [
 	self header: 'Monticello Working Copies' on: aStream.
 	list := MCWorkingCopy allManagers asSortedCollection: [:a :b | a packageName <= b packageName].
 	list do: [:each | aStream nextPutAll: each description; cr ]
+]
+
+{ #category : #utils }
+SpSystemReporter >> title [ 
+	^ 'System Reporter'
 ]
