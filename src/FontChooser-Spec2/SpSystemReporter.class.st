@@ -8,6 +8,9 @@ Class {
 		'topicList',
 		'reportText'
 	],
+	#classInstVars : [
+		'reportText'
+	],
 	#category : #'FontChooser-Spec2'
 }
 
@@ -26,7 +29,7 @@ SpSystemReporter >> connectPresenters [
 	topicList whenSelectionChangedDo: [ :selection | 
 			selection selectedItems
 				ifNotNil: [ :items |
-								reportText acceptText: (self createTextForReport: items)]]
+								reportText text: (self createTextForReport: items)]]
 ]
 
 { #category : #'building report' }
