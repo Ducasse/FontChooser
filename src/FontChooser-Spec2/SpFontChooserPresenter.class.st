@@ -17,7 +17,8 @@ Class {
 		'fontStyleList',
 		'fontSizeList',
 		'currentFontStyleIndex',
-		'currentFontStyleValue'
+		'currentFontStyleValue',
+		'fontSize'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -66,7 +67,7 @@ SpFontChooserPresenter >> fontFamilyList [
 { #category : #accessing }
 SpFontChooserPresenter >> fontSizeList [ 
 	
-	^ fontSizeList 
+	^ fontSize
 
 ]
 
@@ -90,9 +91,11 @@ SpFontChooserPresenter >> initializePresenters [
 				ifTrue: ['(', styleName, ')']
 				ifFalse: [styleName] ].
 			
+			
 	fontSizeList := self newList.
 	fontSizeList display: [ :familyMember2 |  
 			| size |
+			
 			size := familyMember2 size.
 			familyMember2 simulated
 				ifTrue: ['(', size, ')']

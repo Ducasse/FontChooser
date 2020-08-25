@@ -2,7 +2,7 @@
 I represent the second and third list of 
 
 ```
-SpSingleFontPresenter on: LogicalFontManager new defaultFamilies first.
+(SpSingleFontPresenter on: LogicalFontManager new defaultFamilies first) openWithSpec
 ```
 
 
@@ -20,7 +20,8 @@ Class {
 	#instVars : [
 		'fontStyleList',
 		'fontSizeList',
-		'currentFontStyleValue'
+		'currentFontSizeValue',
+		'fontSizeIndex'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -40,38 +41,84 @@ SpSingleFontPresenter class >> example [
 	^ SpSingleFontPresenter on: LogicalFontManager new defaultFamilies first.
 ]
 
-{ #category : #accesing }
+{ #category : #initialization }
+SpSingleFontPresenter >> connectPresenters [
+	
+	fontStyleList 
+		whenSelectionChangedDo: [ :selection | 
+			selection selectedItem
+				ifNotNil: [ :member | 
+					
+						"self storeCurrentFontSizeValue."
+						" we set number but this is not good becquse the model is strqnge and somehow defined in the font chooser."
+						fontSizeList items: (member family pointSizeListFrom).
+						"self refreshFontSizeList"  ]
+						]
+]
+
+{ #category : #'font style list' }
+SpSingleFontPresenter >> firstFontSizeValue [ 
+	"when there is no element that correspond to the previous selection, return the default value"
+	
+	^ 12
+]
+
+{ #category : #accessing }
+SpSingleFontPresenter >> fontSizeList [ 
+	
+	^ fontSizeList
+
+]
+
+{ #category : #accessing }
 SpSingleFontPresenter >> fontStyleList [
+
 	^ fontStyleList
 ]
 
 { #category : #initialization }
 SpSingleFontPresenter >> initializePresenters [ 
 	
-
+	"members of a family"
 	fontStyleList := self newList.
-	fontStyleList display: [ :familyMember |  
+	fontStyleList display: [ :fontStyle |  
 			| styleName |
-
-			styleName := familyMember styleName.
-			familyMember simulated
+			styleName := fontStyle styleName.
+			fontStyle simulated
 				ifTrue: ['(', styleName, ')']
 				ifFalse: [styleName] ].
 			
+			
 	fontSizeList := self newList.
-	fontSizeList display: [ :familyMember2 |  
+	"fontSizeList display: [ :familyMember2 |  
+		
 			| size |
 			size := familyMember2 size.
 			familyMember2 simulated
 				ifTrue: ['(', size, ')']
-				ifFalse: [size] ]
+				ifFalse: [size] ]"
 
+]
+
+{ #category : #design }
+SpSingleFontPresenter >> initializeWindow: aWindowPresenter [
+
+	aWindowPresenter initialExtent: 400 @ 330.
+	aWindowPresenter title: self title
 ]
 
 { #category : #initialization }
 SpSingleFontPresenter >> modelChanged [  
-	
+
 	fontStyleList items: self model members asSortedCollection.
 	fontStyleList selectIndex: 1.
 	
+]
+
+{ #category : #'font style list' }
+SpSingleFontPresenter >> storeCurrentFontSizeValue [ 
+
+	currentFontSizeValue := fontSizeList selection isEmpty
+		ifTrue: [ self firstFontSizeValue ]
+		ifFalse: [  fontSizeList displayValueFor: (fontSizeList selection selectedItem)].
 ]
