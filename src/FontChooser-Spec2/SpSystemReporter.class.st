@@ -18,7 +18,7 @@ Class {
 SpSystemReporter class >> defaultSpec [
 	"self new openWithSpec"
 	^ (SpBoxLayout newHorizontal 
-			add: #topicList;
+			add: #topicList withConstraints: [ :constraints | constraints width: 120 ];
 			add: #reportText;
 			yourself)
 ]
@@ -89,7 +89,7 @@ SpSystemReporter >> fillTopics [
 		(#'LinuxOSDetails' -> #reportLinuxOSDetails:).
 		(#'Modules' -> #reportModules:).
 		(#'OS' -> #reportOS:).
-		(#'OSEnvironment' -> 'reportOSEnvironment:').
+		(#'OSEnvironment' -> #'reportOSEnvironment:').
 		(#'Repositories' -> #'reportRepositories:').
 		(#'Sources' -> #'reportSources:').
 		(#'VM' -> #'reportVM:').
