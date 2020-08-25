@@ -6,7 +6,11 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'topicList',
-		'reportText'
+		'reportText',
+		'categoriesSelected',
+		'categories',
+		'sourceTextModel',
+		'categoryList'
 	],
 	#classInstVars : [
 		'reportText'
@@ -18,9 +22,14 @@ Class {
 SpReporter class >> defaultSpec [
 	"self new openWithSpec"
 	^ (SpBoxLayout newHorizontal 
-			add: #topicList withConstraints: [ :constraints | constraints width: 120 ];
+			add: #topicList withConstraints: [ :constraints | constraints width: 140 ];
 			add: #reportText;
 			yourself)
+]
+
+{ #category : #accessing }
+SpReporter >> categoryList [
+	^ categoryList ifNil: [ categoryList := OrderedCollection new ]
 ]
 
 { #category : #initialization }
@@ -104,4 +113,20 @@ SpReporter >> initializePresenters [
 SpReporter >> initializeWindow: aPres [
 
 	aPres title: self title
+]
+
+{ #category : #accessing }
+SpReporter >> sourceTextModel [
+	^ sourceTextModel
+		ifNil: [ sourceTextModel := RubScrolledTextModel new interactionModel: self ]
+]
+
+{ #category : #updating }
+SpReporter >> updateReport [
+	self sourceTextModel setText: (Text streamContents: [:stream | 
+						self categoryList do: [:each |
+							(categoriesSelected includes: each) ifTrue: [
+								self perform: (categories at: each) with: stream.
+								stream cr]]])
+
 ]

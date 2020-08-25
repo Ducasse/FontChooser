@@ -6,30 +6,38 @@ Class {
 
 { #category : #initialization }
 SpSystemReporter >> fillTopics [
+	
 	| topics |
 	topics := OrderedCollection new.
 	topics addAll:  {
 		(#Image -> #reportImage:) .
 		(#'Image Parameters' -> #reportImageParameters:).
-		(#'LinuxOSDetails' -> #reportLinuxOSDetails:).
-		(#'Modules' -> #reportModules:).
-		(#'OS' -> #reportOS:).
-		(#'OSEnvironment' -> #'reportOSEnvironment:').
-		(#'Repositories' -> #'reportRepositories:').
-		(#'Sources' -> #'reportSources:').
-		(#'VM' -> #'reportVM:').
-		(#'VMOptions' -> #'reportVMOptions:').
-		(#'VMParameters' -> #'reportVMParameters:').
-		(#'VMStats' -> #'reportVMStats:').
-		(#'Win32GFXDetails' -> #'reportWin32GFXDetails:').
-		(#'Win32HardwareDetails' -> #'reportWin32HardwareDetails:').
-		(#'Win32OSDetails' -> #'reportWin32OSDetails:').
-		(#'WorkingCopies' -> #'reportWorkingCopies:').
+		(#'Image Sources' -> #reportSources:).
+		(#'MC Repositories' -> #reportRepositories:).
+		(#'MC Working Copies' -> #reportWorkingCopies:).
+		(#'VM General' -> #reportVM:).
+		(#'VM Options' -> #reportVMOptions:).
+		(#'VM Modules' -> #reportModules:).
+		(#'VM Parameters' -> #reportVMParameters:).
+		(#'VM Stats' -> #reportVMStats:).
+		
+		(#OS -> #reportOS:).
+		(#'OS Environment' -> #reportOSEnvironment:).
 		}.
+		
 	self isWindows
-		ifTrue: [ topics add: #'VM Configuration' -> #reportWin32VMConfig: ].	
-	topicList items: topics
-		 
+		ifTrue: [ topics addAll: {
+			(#'OS Details' -> #reportWin32OSDetails:).
+			(#'VM Configuration' -> #reportWin32VMConfig:).
+			(#'Hardware Details' -> #reportWin32HardwareDetails:).
+			(#'GFX Hardware Details' -> #reportWin32GFXDetails:).	
+			} ].	
+		topicList items: topics.
+		
+	self isLinux 
+		ifTrue: [ topics add: #'OS Details' -> #reportLinuxOSDetails: ].
+		
+	categoriesSelected := Set with: #Image with: #'VM General'.
 ]
 
 { #category : #utils }
