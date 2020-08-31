@@ -78,6 +78,13 @@ StFontChooser class >> defaultSpec [
 			
 ]
 
+{ #category : #actions }
+StFontChooser >> apply [
+
+	(target isNil or: [ setterSymbol isNil ]) ifTrue: [ ^ self ].			
+	self selectedFont ifNotNil: [ :font | target perform: setterSymbol with: self font ].
+]
+
 { #category : #initialization }
 StFontChooser >> connectPresenters [ 
 	
@@ -227,4 +234,12 @@ StFontChooser >> storeCurrentFontStyleValue [
 StFontChooser >> title [ 
 
 	^ 'Font Chooser'
+]
+
+{ #category : #actions }
+StFontChooser >> updateFontList [
+
+	FreeTypeFontProvider current updateFromSystem.
+	self refreshFontList.
+	self changed:#fontListStrings.
 ]
