@@ -1,3 +1,9 @@
+"
+I'm a new model for the font chooser. 
+I'm responsible for computing some default information about the fonts and keeping a list of pangrams.
+
+
+"
 Class {
 	#name : #NewFontChooserModel,
 	#superclass : #Model,

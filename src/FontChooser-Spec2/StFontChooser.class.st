@@ -4,11 +4,43 @@ With the old model (it will not work soon).
 (StFontChooser on: FontChooser new) openWithSpec
 ```
 
+```
+(StFontChooser on: FontChooser new) 
+	setter: #menuFont:;
+	getter: #menuFont;
+	openWithSpec
+```
+
 For example to work on a subset of fonts, provide a specific font chooser as follows:
 
 ```
 (StFontChooser on: NewFontChooserModel newWithDefaultFamilies) openWithSpec
 ```
+
+
+It should probably be used as follows but I'm not sure. 
+
+```
+StandardFonts menuFont: (StFontChooser on: FontChooser new) openWithSpec
+```
+
+The old way to open the font chooset is 
+```
+To open the old font chooser morph
+
+FontChooser
+ openWithWindowTitle: 'Choose the Menu Font'
+ for: StandardFonts
+ setSelector: #menuFont:
+ getSelector: #menuFont
+```
+
+Then I will have to study
+
+```
+FreeTypeFontSelectorDialogWindow new open
+```
+
 "
 Class {
 	#name : #StFontChooser,
@@ -19,7 +51,12 @@ Class {
 		'fontSizeList',
 		'currentFontStyleIndex',
 		'currentFontStyleValue',
-		'fontSize'
+		'fontSize',
+		'languageList',
+		'renderingResult',
+		'buttonBar',
+		'setterSymbol',
+		'getterSymbol'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -31,7 +68,10 @@ StFontChooser class >> defaultSpec [
 		add: (SpBoxLayout newHorizontal 
 					add: #fontFamilyList;
 					add: #fontStyleList;
+					add: #fontSizeList;
+					add: #languageList;
 					yourself);
+		add: #renderingResult;
 					
 		yourself
 			
@@ -74,7 +114,15 @@ StFontChooser >> fontSizeList [
 
 { #category : #accessing }
 StFontChooser >> fontStyleList [
+
 	^ fontStyleList
+]
+
+{ #category : #accessing }
+StFontChooser >> getter: aGetterSymbol [
+	"This the selector (e.g., menuFont) of the message that will be sent to the object whose font will be modified on apply."
+	
+	getterSymbol := aGetterSymbol
 ]
 
 { #category : #initialization }
@@ -96,11 +144,17 @@ StFontChooser >> initializePresenters [
 	fontSizeList := self newList.
 	fontSizeList display: [ :familyMember2 |  
 			| size |
-			
 			size := familyMember2 size.
 			familyMember2 simulated
 				ifTrue: ['(', size, ')']
-				ifFalse: [size] ]
+				ifFalse: [size] ].
+			
+	languageList := self newList. 
+	
+	renderingResult := self newText.
+	
+	buttonBar := self newButtonBar
+	
 
 ]
 
@@ -136,6 +190,21 @@ StFontChooser >> refreshFontStyleList [
 	fontStyle ifNil: [ "could not work when there are not fontStyles"
 							fontStyleList selectIndex: 1 ]
 				ifNotNil: [ fontStyleList selectItem: fontStyle  ]
+]
+
+{ #category : #accessing }
+StFontChooser >> selector: aSymbol [
+	"From this selector we will derive getter and setter (e.g., menuFont: and menuFont) of the message that will be sent to the object whose font will be modified on apply."
+	
+	setterSymbol := (#':' , aSymbol) asSymbol.
+	getterSymbol := aSymbol
+]
+
+{ #category : #accessing }
+StFontChooser >> setter: aSetterSymbol [
+	"This the selector (e.g., menuFont:) of the message that will be sent to the object whose font will be modified on apply."
+	
+	setterSymbol := aSetterSymbol
 ]
 
 { #category : #'font style list' }
