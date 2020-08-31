@@ -1,5 +1,5 @@
 Class {
-	#name : #NewFontChooserTest,
+	#name : #NewFontChooserModelTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'chooser'
@@ -8,16 +8,16 @@ Class {
 }
 
 { #category : #tests }
-NewFontChooserTest >> setUp [
+NewFontChooserModelTest >> setUp [
 	
-	chooser := NewFontChooser new.
+	chooser := NewFontChooserModel new.
 	chooser fontList: LogicalFontManager current defaultFamilies.
 	"this is equivalent to FontChooser newWithDefaultFamilies"
 
 ]
 
 { #category : #tests }
-NewFontChooserTest >> testFontList [
+NewFontChooserModelTest >> testFontList [
 	
 	self deny: chooser fontList isEmpty.
 	self 

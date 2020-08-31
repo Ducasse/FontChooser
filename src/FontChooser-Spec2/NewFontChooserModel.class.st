@@ -1,5 +1,5 @@
 Class {
-	#name : #NewFontChooser,
+	#name : #NewFontChooserModel,
 	#superclass : #Model,
 	#instVars : [
 		'fontList'
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #'instance creation' }
-NewFontChooser class >> newWithDefaultFamilies [
+NewFontChooserModel class >> newWithDefaultFamilies [
 
    ^ self new fontList: LogicalFontManager current defaultFamilies; yourself
 ]
 
 { #category : #accessing }
-NewFontChooser >> fontList [
+NewFontChooserModel >> fontList [
 	^ fontList
 ]
 
 { #category : #accessing }
-NewFontChooser >> fontList: aCollection [ 
+NewFontChooserModel >> fontList: aCollection [ 
 	fontList := aCollection
 ]

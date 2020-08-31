@@ -1,5 +1,5 @@
 Class {
-	#name : #SpFontChooserPresenterTest,
+	#name : #StFontChooserPresenterTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'presenter'
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #running }
-SpFontChooserPresenterTest >> setUp [
+StFontChooserPresenterTest >> setUp [
 
-	presenter := SpFontChooserPresenter on: NewFontChooser newWithDefaultFamilies.
+	presenter := StFontChooser on: NewFontChooserModel newWithDefaultFamilies.
 	
 ]
 
 { #category : #tests }
-SpFontChooserPresenterTest >> testFamilyListCorrectAtInitialization [
+StFontChooserPresenterTest >> testFamilyListCorrectAtInitialization [
 
 	self deny: presenter fontFamilyList items isEmpty.
 	self assert: presenter fontFamilyList items size equals: 3.
@@ -24,13 +24,13 @@ SpFontChooserPresenterTest >> testFamilyListCorrectAtInitialization [
 ]
 
 { #category : #tests }
-SpFontChooserPresenterTest >> testFirstStyleIsSelected [
+StFontChooserPresenterTest >> testFirstStyleIsSelected [
 	
 	self assert: (presenter fontStyleList selectedItems collect: [:each | each styleName ]) equals: #('Regular')
 ]
 
 { #category : #tests }
-SpFontChooserPresenterTest >> testPresenterOpenAndClose [
+StFontChooserPresenterTest >> testPresenterOpenAndClose [
 	
 	self shouldnt: [ 
 			| window | 
@@ -39,7 +39,7 @@ SpFontChooserPresenterTest >> testPresenterOpenAndClose [
 ]
 
 { #category : #'tests - keep selection' }
-SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept [
+StFontChooserPresenterTest >> testSelectionInFontStyleListIsKept [
 
 
 	presenter fontStyleList clickItem: 3.
@@ -49,7 +49,7 @@ SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept [
 ]
 
 { #category : #'tests - keep selection' }
-SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept2 [
+StFontChooserPresenterTest >> testSelectionInFontStyleListIsKept2 [
 
 	| string |
 	presenter fontStyleList clickItem: 3.
@@ -60,7 +60,7 @@ SpFontChooserPresenterTest >> testSelectionInFontStyleListIsKept2 [
 ]
 
 { #category : #tests }
-SpFontChooserPresenterTest >> testStyleIsDisplayed [
+StFontChooserPresenterTest >> testStyleIsDisplayed [
 	
 	self assert: presenter fontStyleList items size equals: #('Regular' 'Italic' 'Bold' 'Bold Italic') size
 ]

@@ -1,16 +1,17 @@
 "
+With the old model (it will not work soon). 
 ```
-(SpFontChooserPresenter on: FontChooser new) openWithSpec
+(StFontChooser on: FontChooser new) openWithSpec
 ```
 
-For example to work on a subset of fonts, provide a specific font chooser qs follows:
+For example to work on a subset of fonts, provide a specific font chooser as follows:
 
 ```
-(SpFontChooserPresenter on: NewFontChooser newWithDefaultFamilies) openWithSpec
+(StFontChooser on: NewFontChooserModel newWithDefaultFamilies) openWithSpec
 ```
 "
 Class {
-	#name : #SpFontChooserPresenter,
+	#name : #StFontChooser,
 	#superclass : #SpPresenterWithModel,
 	#instVars : [
 		'fontFamilyList',
@@ -24,7 +25,7 @@ Class {
 }
 
 { #category : #specs }
-SpFontChooserPresenter class >> defaultSpec [ 
+StFontChooser class >> defaultSpec [ 
 
 	^ SpBoxLayout newVertical
 		add: (SpBoxLayout newHorizontal 
@@ -37,7 +38,7 @@ SpFontChooserPresenter class >> defaultSpec [
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> connectPresenters [ 
+StFontChooser >> connectPresenters [ 
 	
 	fontFamilyList 
 		whenSelectionChangedDo: [ :selection | 
@@ -50,7 +51,7 @@ SpFontChooserPresenter >> connectPresenters [
 ]
 
 { #category : #'font style list' }
-SpFontChooserPresenter >> firstFontStyleValue [ 
+StFontChooser >> firstFontStyleValue [ 
 	"when there is no element that correspond to the previous selection, return the default value"
 	
 	^ 'Regular'	
@@ -58,26 +59,26 @@ SpFontChooserPresenter >> firstFontStyleValue [
 ]
 
 { #category : #accessing }
-SpFontChooserPresenter >> fontFamilyList [ 
+StFontChooser >> fontFamilyList [ 
 	
 	^ fontFamilyList 
 
 ]
 
 { #category : #accessing }
-SpFontChooserPresenter >> fontSizeList [ 
+StFontChooser >> fontSizeList [ 
 	
 	^ fontSize
 
 ]
 
 { #category : #accessing }
-SpFontChooserPresenter >> fontStyleList [
+StFontChooser >> fontStyleList [
 	^ fontStyleList
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> initializePresenters [ 
+StFontChooser >> initializePresenters [ 
 	
 	fontFamilyList := self newList.
 	fontFamilyList display: [ :each | each familyName ].
@@ -104,14 +105,14 @@ SpFontChooserPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> initializeWindow: aWindowPresenter [
+StFontChooser >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter initialExtent: 900 @ 530.
 	aWindowPresenter title: self title
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> modelChanged [  
+StFontChooser >> modelChanged [  
 	
 	fontFamilyList items: self model fontList.
 	fontFamilyList selectIndex: 1.
@@ -120,7 +121,7 @@ SpFontChooserPresenter >> modelChanged [
 ]
 
 { #category : #'font style list' }
-SpFontChooserPresenter >> refreshFontStyleList [
+StFontChooser >> refreshFontStyleList [
 								
 	| fontStyle |
 	"the display logic displays (Oblique) and the font does not store (Oblique) but Oblique.
@@ -138,7 +139,7 @@ SpFontChooserPresenter >> refreshFontStyleList [
 ]
 
 { #category : #'font style list' }
-SpFontChooserPresenter >> storeCurrentFontStyleValue [ 
+StFontChooser >> storeCurrentFontStyleValue [ 
 
 	currentFontStyleValue := fontStyleList selection isEmpty
 		ifTrue: [ self firstFontStyleValue ]
@@ -146,7 +147,7 @@ SpFontChooserPresenter >> storeCurrentFontStyleValue [
 ]
 
 { #category : #initialization }
-SpFontChooserPresenter >> title [ 
+StFontChooser >> title [ 
 
 	^ 'Font Chooser'
 ]
