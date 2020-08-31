@@ -56,7 +56,8 @@ Class {
 		'renderingResult',
 		'buttonBar',
 		'setterSymbol',
-		'getterSymbol'
+		'getterSymbol',
+		'target'
 	],
 	#category : #'FontChooser-Spec2'
 }
@@ -116,6 +117,13 @@ StFontChooser >> fontSizeList [
 StFontChooser >> fontStyleList [
 
 	^ fontStyleList
+]
+
+{ #category : #accessing }
+StFontChooser >> for: anObject [
+	"Specify which object will see its font modified via the getter and setter symbol selector. "
+	
+	target := anObject
 ]
 
 { #category : #accessing }
